@@ -16,14 +16,14 @@ class Screen:
         self._enable_display(config.rst)
 
         i2c = I2C(-1, config.scl, config.sda, freq=config.frequency)
-        self._oled = ssd1306.SSD1306_I2C(128, 64, i2c)
+        self._oled = ssd1306.SSD1306_I2C(config.width, config.height, i2c)
         self._writer = Writer(self._oled, fullheight_bold, verbose=False)
 
     def update(self, speed):
         """Update the displayed speed."""
-        value = str(speed)  # TODO format
+        value = str(speed)  # TODO format 1dp if < 10
         len = self._writer.stringlen(value)
-        Writer.set_textpos(self._oled, 0, 128 - len)
+        Writer.set_textpos(self._oled, 0, config.width - len)
 
         self._oled.fill(0)
         self._writer.printstring(value)

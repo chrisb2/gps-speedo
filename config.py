@@ -6,3 +6,5 @@ frequency = 100000
 scl = Pin(15)
 sda = Pin(4)
 rst = Pin(16, Pin.OUT)
+width = 128
+height = 64
