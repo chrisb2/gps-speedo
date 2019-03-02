@@ -9,7 +9,10 @@ import config
 
 
 class Screen:
-    """GPS speedometer screen."""
+    """GPS speedometer screen.
+
+    Data sheet: https://cdn-shop.adafruit.com/datasheets/SSD1306.pdf
+    """
 
     def __init__(self):
         """Create with the configuration."""
@@ -21,15 +24,20 @@ class Screen:
 
     def update(self, speed):
         """Update the displayed speed."""
-        value = str(speed)  # TODO format 1dp if < 10
-        len = self._writer.stringlen(value)
-        Writer.set_textpos(self._oled, 0, config.width - len)
+        if speed >= 10:
+            value = "{:.0f}".format(speed)
+        else:
+            value = "{:.1f}".format(speed)
 
         self._oled.fill(0)
+        # Right justify
+        len = self._writer.stringlen(value)
+        self._writer.set_textpos(self._oled, 0, config.width - len)
         self._writer.printstring(value)
         self._oled.show()
 
     def _enable_display(self, resetPin):
         resetPin.off()
-        utime.sleep_ms(50)
+        # Minimum 3us, datasheet p27, Power ON and OFF sequence
+        utime.sleep_us(5)
         resetPin.on()
