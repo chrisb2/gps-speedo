@@ -10,5 +10,7 @@ width = 128
 height = 64
 
 # GPS
-rx = Pin(12)
-tx = Pin(13)
+rx = 12
+tx = 13
+pps = Pin(14)
+baudrate = 115200

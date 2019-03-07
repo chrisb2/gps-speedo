@@ -1,8 +1,4 @@
 """Main program of GPS speedometer."""
-import screen
-import machine
+import speed
 
-s = screen.Screen()
-s.update(6.5)
-
-machine.deepsleep(5000)
+speed.run()
